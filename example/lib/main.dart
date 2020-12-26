@@ -1,89 +1,66 @@
+import 'package:cached_video_player/cached_video_player.dart';
+import 'package:cachedflickvideoplayer/controls/flick_landscape_controls.dart';
+import 'package:cachedflickvideoplayer/controls/flick_video_with_controls.dart';
+import 'package:cachedflickvideoplayer/flick_video_player.dart';
+import 'package:cachedflickvideoplayer/manager/flick_manager.dart';
 import 'package:flutter/material.dart';
-import 'default_player/default_player.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flick player example',
+void main() => runApp(MaterialApp(
+      title: 'Cachedflickvideoplayer demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        backgroundColor: Color.fromRGBO(246, 245, 250, 1),
-        body: SafeArea(child: Examples()),
-      ),
-    );
-  }
-}
+      home: ViewPage(),
+    ));
 
-class Examples extends StatefulWidget {
-  const Examples({Key key}) : super(key: key);
-
+class ViewPage extends StatefulWidget {
   @override
-  _ExamplesState createState() => _ExamplesState();
+  _ViewPageState createState() => _ViewPageState();
 }
 
-class _ExamplesState extends State<Examples> {
-  final List<Map<String, dynamic>> samples = [
-    {'name': 'Default player', 'widget': DefaultPlayer()},
-  ];
+class _ViewPageState extends State<ViewPage> {
+  FlickManager flickManager;
 
-  int selectedIndex = 0;
-
-  changeSample(int index) {
-
-      setState(() {
-        selectedIndex = index;
-      });
-
+  _ViewPageState() {
+    flickManager = initVideo();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Scaffold(
+        body: ListView(
       children: <Widget>[
-        Container(
-          child: samples[selectedIndex]['widget'],
-        ),
-        Container(
-          height: 80,
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
-          child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: samples.asMap().keys.map((index) {
-                return Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      changeSample(index);
-                    },
-                    child: Center(
-                      child: Container(
-                        padding: EdgeInsets.all(20),
-                        child: Text(
-                          samples.asMap()[index]['name'],
-                          style: TextStyle(
-                            color: index == selectedIndex
-                                ? Color.fromRGBO(100, 109, 236, 1)
-                                : Color.fromRGBO(173, 176, 183, 1),
-                            fontWeight:
-                            index == selectedIndex ? FontWeight.bold : null,
-                          ),
-                        ),
+        Card(
+          margin: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                    padding: const EdgeInsets.all(8),
+                    height: 300,
+                    child: FlickVideoPlayer(
+                      flickManager: flickManager,
+                      flickVideoWithControlsFullscreen: FlickVideoWithControls(
+                        videoFit: BoxFit.contain,
+                        controls: FlickLandscapeControls(),
                       ),
-                    ),
-                  ),
-                );
-              }).toList()),
+                    )),
+              ]),
         ),
       ],
+    ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    flickManager.dispose();
+  }
+
+  FlickManager initVideo() {
+    return FlickManager(
+      cachedVideoPlayerController: CachedVideoPlayerController.network(
+          'https://media.istockphoto.com/videos/blurred-motion-of-people-in-restaurant-blur-background-video-id1190840021'),
     );
   }
 }
