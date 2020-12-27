@@ -2,7 +2,7 @@
 Cachedflickvideoplayer is a video player for flutter. It combines the codes of the plugins 'flick_video_player' and 'cached_video_player' to have a control panel and a caching of the played videos.
 
 # Getting Started
-- First, add 'cachedflickvideoplayer', 'cached_video_player' as a dependency in your pubspec.yaml file.
+- First, add 'cachedflickvideoplayer' as a dependency in your pubspec.yaml file.
 - Follow the Android and iOS configuration steps of the official video_player package.
 
 # Features
@@ -19,7 +19,6 @@ Cachedflickvideoplayer is a video player for flutter. It combines the codes of t
 cachedflickvideoplayer:
     git:
       url: https://github.com/elgsylvain85/cachedflickvideoplayer.git
-cached_video_player: ^1.0.3
 
 # How to use
 import 'package:cachedflickvideoplayer/cached_video_player.dart';

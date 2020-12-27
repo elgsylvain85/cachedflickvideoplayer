@@ -16,7 +16,7 @@ packages:
     source: hosted
     version: "2.1.0-nullsafety.1"
   cached_video_player:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: cached_video_player
       url: "https://pub.dartlang.org"

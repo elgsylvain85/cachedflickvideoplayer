@@ -14,7 +14,7 @@ dependencies:
 
   cachedflickvideoplayer:
     path: ../
-  cached_video_player: ^1.0.3
+  # cached_video_player: ^1.0.3
   flutter_widgets: ^0.1.12
   cupertino_icons: ^0.1.3
 
