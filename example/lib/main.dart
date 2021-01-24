@@ -19,10 +19,10 @@ class ViewPage extends StatefulWidget {
 }
 
 class _ViewPageState extends State<ViewPage> {
-  FlickManager flickManager;
+  CachedVideoPlayerController cachedVideoPlayerController;
 
   _ViewPageState() {
-    flickManager = initVideo();
+    this.cachedVideoPlayerController = initVideo();
   }
 
   @override
@@ -39,7 +39,10 @@ class _ViewPageState extends State<ViewPage> {
                     padding: const EdgeInsets.all(8),
                     height: 300,
                     child: FlickVideoPlayer(
-                      flickManager: flickManager,
+                      flickManager: FlickManager(
+                        cachedVideoPlayerController:
+                            this.cachedVideoPlayerController,
+                      ),
                       flickVideoWithControlsFullscreen: FlickVideoWithControls(
                         videoFit: BoxFit.contain,
                         controls: FlickLandscapeControls(),
@@ -54,13 +57,11 @@ class _ViewPageState extends State<ViewPage> {
   @override
   void dispose() {
     super.dispose();
-    flickManager.dispose();
+    this.cachedVideoPlayerController?.dispose();
   }
 
-  FlickManager initVideo() {
-    return FlickManager(
-      cachedVideoPlayerController: CachedVideoPlayerController.network(
-          'https://media.istockphoto.com/videos/blurred-motion-of-people-in-restaurant-blur-background-video-id1190840021'),
-    );
+  CachedVideoPlayerController initVideo() {
+    return CachedVideoPlayerController.network(
+        'https://media.istockphoto.com/videos/blurred-motion-of-people-in-restaurant-blur-background-video-id1190840021');
   }
 }
